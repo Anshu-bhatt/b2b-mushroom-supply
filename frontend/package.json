@@ -1,0 +1,21 @@
+{
+  "name": "b2b-mushroom-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for B2B Mushroom Supply Company",
+  "scripts": {
+    "start": "npx http-server -p 3000 -c-1",
+    "dev": "npx live-server --port=3000 --entry-file=index.html",
+    "build": "echo 'No build process required for static files'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": ["b2b", "mushroom", "supply", "frontend"],
+  "author": "B2B Mushroom Supply Company",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
