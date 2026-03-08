@@ -166,14 +166,9 @@ const startServer = async () => {
   try {
     // Initialize database connection
     console.log('🔍 Connecting to database...');
-    await connectDB();
-    
-    // Test email configuration on startup (optional)
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      console.log('🔍 Testing email configuration...');
-      await testEmailConfiguration();
-    } else {
-      console.log('⚠️  Email not configured - inquiry notifications disabled');
+    const isDbConnected = await connectDB();
+    if (!isDbConnected) {
+      console.log('⚠️  Database unavailable at startup. API will run, but DB-backed routes may fail until connection is fixed.');
     }
     
     // Start the server
@@ -186,6 +181,16 @@ const startServer = async () => {
       console.log(`📚 Products API: http://localhost:${PORT}/api/products`);
       console.log(`📋 Inquiry API: http://localhost:${PORT}/api/inquiry`);
       console.log('─'.repeat(60));
+
+      // Run email verification in background so startup isn't blocked by SMTP timeout.
+      if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        console.log('🔍 Testing email configuration...');
+        testEmailConfiguration().catch((error) => {
+          console.error('⚠️  Email verification check failed:', error.message || error);
+        });
+      } else {
+        console.log('⚠️  Email not configured - inquiry notifications disabled');
+      }
     });
     
   } catch (error) {
