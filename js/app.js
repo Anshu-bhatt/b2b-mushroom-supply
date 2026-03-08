@@ -5,7 +5,8 @@
 
 // Configuration
 const CONFIG = {
-    API_BASE_URL: 'http://localhost:5000/api',
+    // Use runtime-configured API URL in production; fallback to local backend for development.
+    API_BASE_URL: (window.__API_BASE_URL && window.__API_BASE_URL.trim()) || 'http://localhost:5000/api',
     ENDPOINTS: {
         PRODUCTS: '/products',
         CATEGORIES: '/products/categories',

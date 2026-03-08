@@ -108,21 +108,7 @@ app.get('/api/status', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/inquiry', inquiryRoutes);
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('public'));
-  
-  // Handle React Router (catch all handler for SPA)
-  app.get('*', (req, res) => {
-    if (req.path.startsWith('/api')) {
-      return res.status(404).json({
-        success: false,
-        message: 'API endpoint not found'
-      });
-    }
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
-}
+// Note: backend is deployed as API-only service.
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
